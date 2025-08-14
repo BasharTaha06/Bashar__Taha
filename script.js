@@ -127,3 +127,17 @@ if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     el.style.transitionDuration = "0.01ms"
   })
 }
+
+// Set favicon dynamically
+function setFavicon(url) {
+  let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+  link.type = 'image/x-icon';
+  link.rel = 'shortcut icon';
+  link.href = url;
+  document.getElementsByTagName('head')[0].appendChild(link);
+}
+
+// Run on page load
+document.addEventListener("DOMContentLoaded", () => {
+  setFavicon('/Bashar__Taha/logo.ico'); // Change to your icon path
+});
