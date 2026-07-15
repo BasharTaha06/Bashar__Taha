@@ -123,6 +123,16 @@
     align-items: center;
     width: 100%;
   }
+  .hero-avatar{
+    width: 64px; height: 64px;
+    object-fit: cover;
+    object-position: center 20%;
+    border: 1px solid var(--gold);
+    filter: grayscale(0.45) contrast(1.05) brightness(0.92);
+    margin-bottom: 22px;
+    transition: filter 0.4s ease;
+  }
+  .hero-avatar:hover{ filter: grayscale(0.15) contrast(1.05) brightness(0.98); }
   .eyebrow{
     font-family: var(--mono);
     font-size: 0.8rem;
@@ -214,6 +224,11 @@
     font-size: 0.86rem;
     color: var(--text);
   }
+  .layer-left{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   .layer-tags{ display:flex; gap:8px; flex-wrap: wrap; justify-content: flex-end; }
   .layer-tag{
     font-family: var(--mono);
@@ -224,10 +239,11 @@
     color: var(--text-muted);
   }
   .layer-artifact{
-    position: absolute;
+    position: static;
     width: 7px; height: 7px;
     background: var(--gold);
     transform: rotate(45deg);
+    flex-shrink: 0;
   }
   #layer1{ top: 52px; height: 86px; background: rgba(45,168,143,0.05); }
   #layer2{ top: 138px; height: 86px; background: rgba(201,169,97,0.05); }
@@ -270,6 +286,50 @@
   }
   .fact-list li:last-child{ border-bottom: 1px solid var(--line); }
   .fact-label{ color: var(--text-muted); font-family: var(--mono); font-size: 0.82rem; }
+
+  .photo-frame{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 28px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .photo-frame img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    filter: grayscale(0.45) contrast(1.05) brightness(0.92);
+    transition: filter 0.4s ease;
+  }
+  .photo-frame:hover img{
+    filter: grayscale(0.15) contrast(1.05) brightness(0.98);
+  }
+  .photo-frame::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11,14,17,0) 55%, rgba(11,14,17,0.55) 100%);
+    pointer-events: none;
+  }
+  .photo-tag{
+    position: absolute;
+    bottom: 12px; left: 14px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    z-index: 2;
+  }
+  .photo-corner{
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 8px; height: 8px;
+    border-top: 1px solid var(--gold);
+    border-right: 1px solid var(--gold);
+    opacity: 0.8;
+  }
 
   @media (max-width: 760px){
     .hero-grid, .about-grid{ grid-template-columns: 1fr; }
@@ -391,9 +451,10 @@
   <section class="hero" style="border-bottom:none;">
     <div class="wrap hero-grid">
       <div>
+        <img src="profile.jpg" alt="Bashar Taha" class="hero-avatar">
         <div class="eyebrow">Software Engineer · Mobile &amp; Full-Stack · Cairo, Egypt</div>
         <h1 class="hero-title">I turn ideas<br>into apps people<br><span class="accent">actually use.</span></h1>
-        <p class="hero-desc">Final-year CS student at Assiut University and a mobile-first developer — Flutter on the front, Firebase or a .NET Web API I build myself underneath. One of my apps was built to help autistic kids practice expressions and speech. That one still means the most to me.</p>
+        <p class="hero-desc">A mobile-first developer — Flutter on the front, Firebase or a .NET Web API I build myself underneath. One of my apps was built to help autistic kids practice expressions and speech. That one still means the most to me.</p>
         <div class="hero-actions">
           <a href="#projects" class="btn btn-primary">View projects</a>
           <a href="https://wa.me/+201120420597" target="_blank" rel="noopener" class="btn btn-secondary">Chat on WhatsApp</a>
@@ -401,11 +462,11 @@
       </div>
       <div class="strata" id="strata">
         <div class="strata-label">// mobile-first, layer by layer</div>
-        <div class="layer" id="layer1"><span class="layer-artifact"></span><span class="layer-name">Mobile</span><span class="layer-tags"><span class="layer-tag">Flutter</span><span class="layer-tag">Dart</span></span></div>
-        <div class="layer" id="layer2"><span class="layer-artifact"></span><span class="layer-name">State</span><span class="layer-tags"><span class="layer-tag">Cubit/Bloc</span><span class="layer-tag">Provider</span></span></div>
-        <div class="layer" id="layer3"><span class="layer-artifact"></span><span class="layer-name">Backend</span><span class="layer-tags"><span class="layer-tag">.NET Web API</span><span class="layer-tag">Laravel</span></span></div>
-        <div class="layer" id="layer4"><span class="layer-artifact"></span><span class="layer-name">Data</span><span class="layer-tags"><span class="layer-tag">Firebase</span><span class="layer-tag">SQL / Oracle</span></span></div>
-        <div class="layer" id="layer5"><span class="layer-artifact"></span><span class="layer-name">Core</span><span class="layer-tags"><span class="layer-tag">DSA</span><span class="layer-tag">Cloud</span></span></div>
+        <div class="layer" id="layer1"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Mobile</span></span><span class="layer-tags"><span class="layer-tag">Flutter</span><span class="layer-tag">Dart</span></span></div>
+        <div class="layer" id="layer2"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">State</span></span><span class="layer-tags"><span class="layer-tag">Cubit/Bloc</span><span class="layer-tag">Provider</span></span></div>
+        <div class="layer" id="layer3"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Backend</span></span><span class="layer-tags"><span class="layer-tag">.NET Web API</span><span class="layer-tag">C#</span></span></div>
+        <div class="layer" id="layer4"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Data</span></span><span class="layer-tags"><span class="layer-tag">Firebase</span><span class="layer-tag">SQL / Oracle</span></span></div>
+        <div class="layer" id="layer5"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Core</span></span><span class="layer-tags"><span class="layer-tag">DSA</span><span class="layer-tag">Cloud</span></span></div>
       </div>
     </div>
   </section>
@@ -417,13 +478,18 @@
         <span class="section-num">01</span>
         <h2 class="section-title" style="margin-bottom:28px;">About</h2>
         <div class="about-text">
-          <p>I'm <strong>Bashar Taha</strong>, a final-year Computer Science student at <strong>Assiut University</strong>, based in <strong>Cairo, Egypt</strong>. I started out building mobile apps in <strong>Flutter</strong>, and that's still where I feel most at home — but I didn't want to stop at the UI, so I picked up <strong>.NET Web API</strong> and <strong>Laravel</strong> for the backend, until I could build a full product on my own, front to back.</p>
+          <p>I'm <strong>Bashar Taha</strong>, a software engineer based in <strong>Cairo, Egypt</strong>, with a B.Sc. in Computer Science from <strong>Assiut University</strong>. I started out building mobile apps in <strong>Flutter</strong>, and that's still where I feel most at home — but I didn't want to stop at the UI, so I picked up <strong>.NET Web API</strong> for the backend, until I could build a full product on my own, front to back.</p>
           <p>I hold an <strong>ICPC ECPC Honorable Mention</strong>, so I don't just write code that works — I think about how it scales. That competitive-programming background shows up in every backend I design.</p>
           <p>The project I'm proudest of isn't the most technically complex one — it's <strong>Autism Helper</strong>, an Arabic-first app I built to help autistic children practice facial expressions and speech. It's a reminder to myself that the point of writing code is to actually help someone.</p>
           <p>I'm now looking for <strong>full-time roles</strong> and <strong>freelance work</strong> — anything from a quick MVP to a product I can own end to end.</p>
         </div>
       </div>
       <div>
+        <div class="photo-frame">
+          <img src="profile.jpg" alt="Bashar Taha">
+          <span class="photo-corner"></span>
+          <span class="photo-tag">// bashar taha</span>
+        </div>
         <ul class="fact-list">
           <li><span class="fact-label">LOCATION</span><span>Cairo, Egypt</span></li>
           <li><span class="fact-label">EDUCATION</span><span>B.Sc. CS, Assiut University</span></li>
@@ -457,7 +523,7 @@
         </div>
         <div>
           <div class="project-title" style="font-size:1.05rem;">Backend</div>
-          <p class="project-desc">.NET Web API, Laravel, C#, Python, Java — clean, scalable architecture.</p>
+          <p class="project-desc">.NET Web API, C#, Python, Java — clean, scalable architecture.</p>
         </div>
         <div>
           <div class="project-title" style="font-size:1.05rem;">Data</div>
@@ -490,15 +556,16 @@
       <div class="project-card">
         <span class="project-index">02</span>
         <div class="project-title">ModernFix</div>
-        <p class="project-desc">A production cross-platform app (iOS &amp; Android) with Firebase Auth and Firestore sync, live order tracking with push notifications, and full Arabic/English localization.</p>
-        <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Firebase</span><span class="tag">Push Notifications</span></div>
+        <p class="project-desc">A legacy PHP/Laravel backend with no documentation — I connected it to a new Flutter app (Bloc for state management), fully bilingual in Arabic and English. I'm building it end to end with my team, from UI to deployment, and just shipped it to Google Play. Apple Store release is next.</p>
+        <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Bloc</span><span class="tag">Legacy PHP/Laravel API</span></div>
+        <a href="https://play.google.com/store/apps/details?id=com.modernfix" target="_blank" rel="noopener" style="display:inline-block; margin-top:16px; font-family:var(--mono); font-size:0.78rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:2px;">Get it on Google Play ↗</a>
       </div>
       <div class="project-card">
         <span class="project-index">03</span>
-        <div class="project-title">Mr. Wafaa E-Commerce Platform</div>
-        <p class="project-desc">A freelance e-commerce web app for a printing services business — product listings, cart, and order flow, running on a zero-server-cost Firebase backend.</p>
-        <div class="project-tags"><span class="tag">Firestore</span><span class="tag">Firebase Hosting</span></div>
-        <a href="https://mr-wafaee-shop.web.app" target="_blank" rel="noopener" style="display:inline-block; margin-top:16px; font-family:var(--mono); font-size:0.78rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:2px;">Visit site ↗</a>
+        <div class="project-title">MR-Wafaae</div>
+        <p class="project-desc">A landing page with a small e-commerce section for a printing business, built with Next.js and a Firebase backend — Firebase Storage handles all product images. Tuned for strong SEO and GEO, so it actually gets found.</p>
+        <div class="project-tags"><span class="tag">Next.js</span><span class="tag">Firebase</span><span class="tag">SEO/GEO</span></div>
+        <a href="https://mr-wafaae.com" target="_blank" rel="noopener" style="display:inline-block; margin-top:16px; font-family:var(--mono); font-size:0.78rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:2px;">Visit site ↗</a>
       </div>
       <div class="project-card">
         <span class="project-index">04</span>
@@ -573,9 +640,9 @@
   });
 
   // EmailJS setup — replace these 3 values with your own from emailjs.com
-  const EMAILJS_PUBLIC_KEY = 'tM5C7jlgT7-_11m-0';
+  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
   const EMAILJS_SERVICE_ID = 'service_hgpikl1';
-  const EMAILJS_TEMPLATE_ID = 'template_drcwzj9';
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
 
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
