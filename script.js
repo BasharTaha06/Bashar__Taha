@@ -67,7 +67,7 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 
 // Copy email to clipboard function
 function copyEmail() {
-  const email = "eng.bashar.taha@gmail.com"
+  const email = "bashartaha011@gmail.com"
   navigator.clipboard
     .writeText(email)
     .then(() => {
