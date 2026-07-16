@@ -62,6 +62,7 @@
     border-bottom: 1px solid var(--line);
   }
   nav{
+    position: relative;
     max-width: 1120px;
     margin: 0 auto;
     padding: 18px 32px;
@@ -103,9 +104,26 @@
   .nav-cta:hover{ border-color: var(--gold); color: var(--gold); }
   .burger{ display:none; background:none; border:none; color: var(--text); font-size:1.4rem; cursor:pointer; }
 
+  .mobile-only{ display: none; }
+
   @media (max-width: 760px){
-    .nav-links{ display:none; }
+    .nav-links{
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      flex-direction: column;
+      gap: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 32px 20px;
+    }
+    .nav-links.open{ display: flex; }
+    .nav-links li{ padding: 12px 0; border-top: 1px solid var(--line); }
+    .nav-links li:first-child{ border-top: none; }
+    .mobile-only{ display: block; }
     .nav-cta{ display:none; }
+    .burger{ display: block; }
   }
 
   /* ---------- HERO ---------- */
@@ -120,7 +138,7 @@
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
     gap: 60px;
-    align-items: center;
+    align-items: start;
     width: 100%;
   }
   .hero-avatar{
@@ -186,6 +204,19 @@
     color: var(--text);
   }
   .btn-secondary:hover{ border-color: var(--teal); color: var(--teal); }
+
+  .hero-photo-wrap{
+    width: 100%;
+  }
+  .hero-photo-frame{
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 3 / 4;
+    margin: 6px auto 0;
+  }
+  @media (max-width: 760px){
+    .hero-photo-frame{ max-width: 240px; margin: 0 auto; }
+  }
 
   /* Signature: excavation strata visual */
   .strata{
@@ -333,7 +364,7 @@
 
   @media (max-width: 760px){
     .hero-grid, .about-grid{ grid-template-columns: 1fr; }
-    .strata{ height: 400px; margin-top: 40px; }
+    .hero-photo-wrap{ order: -1; margin-top: 0; margin-bottom: 32px; }
   }
 
   /* ---------- PROJECTS ---------- */
@@ -436,13 +467,15 @@
 <header>
   <nav>
     <div class="logo"><span class="mark"></span>Bashar Taha</div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#stack">Stack</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li class="mobile-only"><a href="resume.pdf" target="_blank" rel="noopener">Resume</a></li>
     </ul>
     <a href="resume.pdf" target="_blank" rel="noopener" class="nav-cta">Resume</a>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">☰</button>
   </nav>
 </header>
 
@@ -451,7 +484,6 @@
   <section class="hero" style="border-bottom:none;">
     <div class="wrap hero-grid">
       <div>
-        <img src="placeholder.jpg" alt="Bashar Taha" class="hero-avatar">
         <div class="eyebrow">Software Engineer · Mobile &amp; Full-Stack · Cairo, Egypt</div>
         <h1 class="hero-title">I turn ideas<br>into apps people<br><span class="accent">actually use.</span></h1>
         <p class="hero-desc">A mobile-first developer — Flutter on the front, Firebase or a .NET Web API I build myself underneath. One of my apps was built to help autistic kids practice expressions and speech. That one still means the most to me.</p>
@@ -460,13 +492,11 @@
           <a href="https://wa.me/+201120420597" target="_blank" rel="noopener" class="btn btn-secondary">Chat on WhatsApp</a>
         </div>
       </div>
-      <div class="strata" id="strata">
-        <div class="strata-label">// mobile-first, layer by layer</div>
-        <div class="layer" id="layer1"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Mobile</span></span><span class="layer-tags"><span class="layer-tag">Flutter</span><span class="layer-tag">Dart</span></span></div>
-        <div class="layer" id="layer2"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">State</span></span><span class="layer-tags"><span class="layer-tag">Cubit/Bloc</span><span class="layer-tag">Provider</span></span></div>
-        <div class="layer" id="layer3"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Backend</span></span><span class="layer-tags"><span class="layer-tag">.NET Web API</span><span class="layer-tag">C#</span></span></div>
-        <div class="layer" id="layer4"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Data</span></span><span class="layer-tags"><span class="layer-tag">Firebase</span><span class="layer-tag">SQL / Oracle</span></span></div>
-        <div class="layer" id="layer5"><span class="layer-left"><span class="layer-artifact"></span><span class="layer-name">Core</span></span><span class="layer-tags"><span class="layer-tag">DSA</span><span class="layer-tag">Cloud</span></span></div>
+      <div class="hero-photo-wrap">
+        <div class="photo-frame hero-photo-frame">
+          <img src="profile.jpg" alt="Bashar Taha">
+          <span class="photo-corner"></span>
+        </div>
       </div>
     </div>
   </section>
@@ -631,18 +661,26 @@
 </footer>
 
 <script>
-  // Reveal strata layers on load
-  window.addEventListener('DOMContentLoaded', () => {
-    const layers = document.querySelectorAll('.layer');
-    layers.forEach((layer, i) => {
-      setTimeout(() => layer.classList.add('visible'), 300 + i * 220);
+  // Mobile nav toggle
+  const burger = document.getElementById('burger');
+  const navLinksEl = document.getElementById('nav-links');
+  burger.addEventListener('click', () => {
+    const isOpen = navLinksEl.classList.toggle('open');
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    burger.textContent = isOpen ? '✕' : '☰';
+  });
+  navLinksEl.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinksEl.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.textContent = '☰';
     });
   });
 
-  // EmailJS setup — replace these 3 values with your own from emailjs.com
-  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+  // EmailJS setup
+  const EMAILJS_PUBLIC_KEY = 'tM5C7jlgT7-_11m-0';
   const EMAILJS_SERVICE_ID = 'service_hgpikl1';
-  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  const EMAILJS_TEMPLATE_ID = 'template_drcwzj9';
 
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
