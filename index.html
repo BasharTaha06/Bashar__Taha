@@ -283,7 +283,18 @@
   #layer5{ top: 396px; height: 84px; background: rgba(139,144,150,0.05); }
 
   /* ---------- SECTION GENERIC ---------- */
-  section{ padding: 120px 0; border-bottom: 1px solid var(--line); }
+  section{
+    min-height: 100vh;
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  section > .wrap{ width: 100%; }
+  @media (max-width: 760px){
+    section{ min-height: unset; padding: 90px 0; }
+  }
   .section-head{ margin-bottom: 56px; }
   .section-num{
     font-family: var(--mono);
@@ -515,11 +526,6 @@
         </div>
       </div>
       <div>
-        <div class="photo-frame">
-          <img src="profile.jpg" alt="Bashar Taha">
-          <span class="photo-corner"></span>
-          <span class="photo-tag">// bashar taha</span>
-        </div>
         <ul class="fact-list">
           <li><span class="fact-label">LOCATION</span><span>Cairo, Egypt</span></li>
           <li><span class="fact-label">EDUCATION</span><span>B.Sc. CS, Assiut University</span></li>
